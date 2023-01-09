@@ -11,10 +11,27 @@ services:
     expose:
       - 8080
 
-
   nginx:
     build: ./nginx
     container_name: nginx
     restart: always
     ports:
       - "80:80"
+
+  mysql:
+    build: ./mysql
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db_api'
+      MYSQL_USER: 'api_user'
+      MYSQL_PASSWORD: 'dog&fairly!test'
+      MYSQL_ROOT_PASSWORD: 'testroot@secure'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - api-db:/var/lib/mysql
+volumes:
+  api-db:
