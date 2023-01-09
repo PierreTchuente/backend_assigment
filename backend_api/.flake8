@@ -1,0 +1,6 @@
+[flake8]
+format = default
+show-source = True
+tee = True
+max-line-length = 79
+statistics = True

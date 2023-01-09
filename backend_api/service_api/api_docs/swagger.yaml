@@ -1,0 +1,45 @@
+swagger: '2.0'
+info:
+  title: Backend API
+  description: API backend handling.
+  version: "1.0.0"
+host: 127.0.0.1
+schemes:
+  - http
+produces:
+  - application/json
+  - text/html
+
+tags:
+  - name: API
+    description: API Backend Resources
+paths:
+  /:
+    get:
+      tags:
+        - swagger
+      operationId: swagger
+      responses:
+        '200':
+          description: return the api documentation
+          schema:
+            type: file
+  /status:
+    get:
+      tags:
+        - status
+      summary: status summary
+      description: return all api definition
+      operationId: get_status
+      responses:
+        '200':
+          description: successful
+          schema:
+            $ref: '#/definitions/StatusResponse'
+
+definitions:
+  StatusResponse:
+    type: object
+    properties:
+      ok:
+        type: boolean
