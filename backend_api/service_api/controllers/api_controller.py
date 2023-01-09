@@ -12,6 +12,9 @@ class MessageController:
         self.logger.info(f"start receiving the message {message}")
         base_64_data = message.get("data")
         if base_64_data:
-            return Data.get_data_from_base64(base_64_data)
+            data = Data.get_data_from_base64(base_64_data)
+            # We can use a db model here to write the data in tha database.
+            self.logger.info(f"dumping the process data {data}")
+            return {"status_code": 201}
         else:
             raise exception_response(400)

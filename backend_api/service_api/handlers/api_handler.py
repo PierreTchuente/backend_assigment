@@ -22,6 +22,4 @@ def get_status(request):
 @view_config(route_name="receive_message", request_method="POST")
 def receive_message(request):
     payload = request.swagger_data["payload"]
-    data = message_controller.receive(payload.get("message"))
-    logger.info(f"dumping the process data {data}")
-    return {"status_code": 201}
+    return message_controller.receive(payload.get("message"))
