@@ -36,6 +36,50 @@ paths:
           description: successful
           schema:
             $ref: '#/definitions/StatusResponse'
+  /receive/message:
+    post:
+      tags:
+       - receive
+      summary: receive message from google
+      operationId: receive_message
+      parameters:
+        - name: payload
+          in: body
+          schema:
+            type: object
+            properties:
+              message:
+               type: object
+               properties:
+                attributes:
+                  type: object
+                  properties:
+                   key:
+                    type: string
+                data:
+                  type: string
+                  format: base64
+                messageId:
+                  type: string
+                message_id:
+                  type: string
+                publishTime:
+                  type: string
+                publish_time:
+                  type: string
+      responses:
+        "201":
+          description: Acknowledgment response
+          schema:
+            $ref: '#/definitions/Response'
+        "200":
+          description: Acknowledgment response
+          schema:
+            $ref: '#/definitions/Response'
+        "400":
+          description: Unexpected Error
+          schema:
+            $ref: '#/definitions/Error'
 
 definitions:
   StatusResponse:
@@ -43,3 +87,17 @@ definitions:
     properties:
       ok:
         type: boolean
+
+  Response:
+    type: object
+    properties:
+      status_code:
+        type: integer
+        format: int32
+
+  Error:
+    type: object
+    properties:
+      error_code:
+        type: integer
+        format: int32
