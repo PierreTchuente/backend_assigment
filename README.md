@@ -1,4 +1,4 @@
-# backend_assigments
+# backend_assignments
 
 # How To Use Repo
 This is the backend api runing a pyramid app on uwsgi server with nginx as proxy server
