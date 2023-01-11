@@ -23,3 +23,16 @@ def get_status(request):
 def receive_message(request):
     payload = request.swagger_data["payload"]
     return message_controller.receive(payload.get("message"))
+
+
+@view_config(route_name="get_by_id", request_method="GET")
+def get_by_id(request):
+    id_key = int(request.swagger_data["id"])
+    return message_controller.get_by_id(id_key)
+
+
+@view_config(route_name="get_by_filter", request_method="GET")
+def get_by_filter(request):
+    page_number = int(request.swagger_data["page_number"])
+    page_size = int(request.swagger_data["page_size"])
+    return message_controller.get_by_filter(page_number, page_size)

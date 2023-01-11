@@ -1,9 +1,11 @@
-# from mysql.connector import errorcode
+from datetime import datetime
+
 from service_api.config import Config
 from service_api.db.mysql_db import MySQLDb
 from service_api.models.data import Data
 
 logger = Config.get_logger()
+FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
 
 
 class DbData:
@@ -14,11 +16,11 @@ class DbData:
         sql_query = f"""
             INSERT INTO data
             SET
-              serial = {data.serial},
+              serial = "{data.serial}",
               application = {data.application},
-              time = {data.time},
-              type = {data.type},
-              device = {data.serial},
+              time = "{datetime.strptime(data.Time, FORMAT)}",
+              type = "{data.Type}",
+              device = "{data.device}",
               v0 = {data.v0},
               v1 = {data.v1},
               v2 = {data.v2},
@@ -36,36 +38,49 @@ class DbData:
               v14 = {data.v14},
               v15 = {data.v15},
               v16 = {data.v16},
-              v17 = {data.v17}
+              v17 = {data.v17},
+              v18 = {data.v18}
         """
+        logger.info(f"sql query to execute {sql_query}")
+        cursor.execute(sql_query)
+        logger.info(f"cursor dir {dir(cursor)}")
+        last_rowid = cursor.lastrowid
 
-        result = cursor.execute(sql_query)
         connection.commit()
         cursor.close()
         connection.close()
-        logger.info(result)
-        return result
+        return last_rowid
 
     @staticmethod
-    def get(id_key: int):
+    def get_by_id(id_key: int):
         connection = MySQLDb.get_connection()
         cursor = connection.cursor()
         sql = f"""
             SELECT * FROM data
             WHERE id = {id_key}
         """
-        result = cursor.execute(sql)
-        logger.info(result)
+        cursor.execute(sql)
+        row_data = dict(zip(cursor.column_names, cursor.fetchone()))
+        cursor.close()
         connection.close()
+        return row_data
 
     @staticmethod
-    def get_data(page_number: int = 1, page_size: int = 10):
+    def get_list_data(page_number: int = 1, page_size: int = 10):
         connection = MySQLDb.get_connection()
         cursor = connection.cursor()
+        number_of_items = page_number * page_size
         sql = f"""
          SELECT * FROM data
-         LIMIT {page_number*page_size}, {page_size}
+         LIMIT {number_of_items}, {page_size}
         """
-        result = cursor.execute(sql)
-        logger.info(result)
-        return result
+
+        cursor.execute(sql)
+        rows_data = cursor.fetchall()
+        list_data = [
+            dict(zip(cursor.column_names, row_data)) for row_data in rows_data
+        ]
+        logger.info(cursor.column_names)
+        cursor.close()
+        connection.close()
+        return list_data

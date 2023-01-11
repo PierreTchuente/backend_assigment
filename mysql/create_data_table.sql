@@ -3,7 +3,7 @@ CREATE TABLE data (
   serial VARCHAR(255),
   application INT,
   time DATETIME,
-  type VARCHAR(20),
+  type VARCHAR(50),
   device VARCHAR(255),
   v0 INT,
   v1 FLOAT(3, 2),
@@ -14,7 +14,7 @@ CREATE TABLE data (
   v6 FLOAT(3, 2),
   v7 INT,
   v8 FLOAT(3, 2),
-  v9 int,
+  v9 INT,
   v10 FLOAT(3, 2),
   v11 FLOAT(3, 2),
   v12 FLOAT(3, 2),
@@ -24,5 +24,6 @@ CREATE TABLE data (
   v16 INT,
   v17 INT,
   v18 FLOAT(3, 2),
+  date_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 )

@@ -80,5 +80,8 @@ class Config:
             "database": config.config_parser.get("db_setting", "database"),
             "user": config.config_parser.get("db_setting", "user"),
             "password": config.config_parser.get("db_setting", "password"),
-            "host": int(config.config_parser.get("db_setting", "host")),
+            "host": config.config_parser.get("db_setting", "host"),
+            "raise_on_warnings": bool(
+                config.config_parser.get("db_setting", "raise_on_warnings")
+            ),
         }
