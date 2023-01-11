@@ -56,7 +56,13 @@ class MessageController:
     def get_by_id(self, id_key):
         data = DbData.get_by_id(id_key)
         if not data:
-            return HTTPNotFound(explanation=f"data with id {id_key} not found")
+            message = f"data with id {id_key} not found"
+            response = HTTPNotFound(
+                body=json.dumps({"error_code": 404, "message": message})
+            )
+            response.content_type = CONTENT_TYPE
+            return response
+
         self.logger.info(f"data for id {id_key} is {data}")
         response = HTTPOk(body=json.dumps(data, default=str))
         response.content_type = CONTENT_TYPE

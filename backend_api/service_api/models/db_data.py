@@ -60,6 +60,8 @@ class DbData:
             WHERE id = {id_key}
         """
         cursor.execute(sql)
+        if cursor.rowcount <= 0:
+            return None
         row_data = dict(zip(cursor.column_names, cursor.fetchone()))
         cursor.close()
         connection.close()
