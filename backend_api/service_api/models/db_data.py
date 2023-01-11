@@ -55,7 +55,22 @@ class DbData:
     def get_by_id(id_key: int):
         """
         @param id_key: int
-        @return:
+        @return: row_data: {
+            "id": 1,
+            "serial": "000100000100",
+            "application": 11,
+            "time": "2022-11-08 04:00:04",
+            "type": "xkgw",
+            "device": "000100000100",
+            "v0": 100013,
+            "v1": 0.69,
+            "v2": 1.31,
+            "v3": 0.18,
+            "v4": 0.0,
+            "v5": 0.8,
+            "v6": 0.0,
+             ...
+        }
         """
         connection = MySQLDb.get_connection()
         cursor = connection.cursor()
@@ -73,7 +88,12 @@ class DbData:
         return row_data
 
     @staticmethod
-    def get_list_data(page_number: int = 1, page_size: int = 10):
+    def get_list_data(page_number: int = 0, page_size: int = 10):
+        """
+        @param: page_number: int
+        @param: page_size: int
+        @return: list_data: List(dict)
+        """
         connection = MySQLDb.get_connection()
         cursor = connection.cursor()
         number_of_items = page_number * page_size
