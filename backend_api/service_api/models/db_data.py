@@ -53,6 +53,10 @@ class DbData:
 
     @staticmethod
     def get_by_id(id_key: int):
+        """
+        @param id_key: int
+        @return:
+        """
         connection = MySQLDb.get_connection()
         cursor = connection.cursor()
         sql = f"""
@@ -60,9 +64,10 @@ class DbData:
             WHERE id = {id_key}
         """
         cursor.execute(sql)
-        if cursor.rowcount <= 0:
+        row = cursor.fetchone()
+        if not row:
             return None
-        row_data = dict(zip(cursor.column_names, cursor.fetchone()))
+        row_data = dict(zip(cursor.column_names, row))
         cursor.close()
         connection.close()
         return row_data

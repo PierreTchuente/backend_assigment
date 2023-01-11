@@ -7,12 +7,16 @@ This is the backend api runing a pyramid app on uwsgi server with nginx as proxy
 ### Setup on local machine
 You will need to have docker running on your machine:
 This app is running on python 3.7
-1. `docker-compose build`, to build the api and nginx image
+1. `docker-compose build`, to build the api, nginx and mysql image
 2. `docker-compose up` to start the proxy server and the api
-3. `docker-compose down` to stop both container
+3. `docker-compose down` to stop all containers
+4. Connect to the db using the credential available in the `docker-compose.yaml file`. you can use any mysql client
+5. run the `create_data_table.sql` script to create the table.
+6. Test the application using postman for example.
 
 ## Making request to the API
 The API can be tested using postman
+1. receiving endpoint, create the data in the db
  - Http Method: POST
  - uri 127.0.0.1/receive/message
  - sample payload
@@ -31,3 +35,11 @@ The API can be tested using postman
      "subscription": "projects/myproject/subscriptions/mysubscription"
 }
 ``
+2. retrieve the data in the db
+   1. retrieve a single data
+   - Http Method: GET
+   - uri 127.0.0.1/{id} (id = 1, 2, ..)
+   2. retrieve the list of data
+   - Http Method: GET
+   - uri 127.0.0.1/data?page_number=0&page_size=5
+   - take page_number and page_size as query parameter
