@@ -2,6 +2,7 @@ from pyramid.httpexceptions import exception_response
 
 from service_api.config import Config
 from service_api.models.data import Data
+from service_api.models.db_data import DbData
 
 
 class MessageController:
@@ -13,8 +14,8 @@ class MessageController:
         base_64_data = message.get("data")
         if base_64_data:
             data = Data.get_data_from_base64(base_64_data)
-            # We can use a db model here to write the data in tha database.
-            self.logger.info(f"dumping the process data {data}")
+            result = DbData.create(data)
+            self.logger.info(f"dumping the result from db {result}")
             return {"status_code": 201}
         else:
             raise exception_response(400)

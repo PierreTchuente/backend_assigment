@@ -41,7 +41,7 @@ class Config:
     def _configure(self):
         """
         The CONFIG_FILE to use for this test should be set as an
-        env variable. Otherwise, the test.ini will be used.
+        env variable.
         """
         environment = os.environ.get("CONFIG_FILE") or "development"
         config_file = os.path.join(
@@ -72,3 +72,13 @@ class Config:
         config = Config.get_instance()
         config._configure_logging()
         return config._logger
+
+    @staticmethod
+    def get_db_setting():
+        config = Config.get_instance()
+        return {
+            "database": config.config_parser.get("db_setting", "database"),
+            "user": config.config_parser.get("db_setting", "user"),
+            "password": config.config_parser.get("db_setting", "password"),
+            "host": int(config.config_parser.get("db_setting", "host")),
+        }

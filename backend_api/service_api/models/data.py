@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-import ast
 import base64
+import json
 from dataclasses import dataclass
 
 
@@ -40,7 +40,7 @@ class Data:
     def get_data_from_base64(data):
         byte_data = base64.b64decode(data)
         dict_str = byte_data.decode("UTF-8")
-        dict_data = ast.literal_eval(dict_str)
+        dict_data = json.load(dict_str)
         return Data(
             serial=dict_data.get("serial"),
             application=dict_data.get("application"),
